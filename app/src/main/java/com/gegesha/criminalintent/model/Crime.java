@@ -1,21 +1,46 @@
 package com.gegesha.criminalintent.model;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
-/**
- * Created by tornike on 17-Sep-16.
- */
+
 public class Crime {
     private UUID mId;
     private String mTitle;
+    private Date mDate;
+    private boolean mSolved;
+    private DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+
+    public String getMDateString() {
+        return dateFormat.format(this.mDate);
+    }
 
     public Crime() {
         this.mId = UUID.randomUUID();
+        this.mDate=new Date();
     }
 
     /*
     * getter-setter
     */
+
+    public Date getmDate() {
+        return mDate;
+    }
+
+    public void setmDate(Date mDate) {
+        this.mDate = mDate;
+    }
+
+    public boolean ismSolved() {
+        return mSolved;
+    }
+
+    public void setmSolved(boolean mSolved) {
+        this.mSolved = mSolved;
+    }
 
     public UUID getmId() {
         return mId;
