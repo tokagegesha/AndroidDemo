@@ -11,6 +11,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private int position;
     private DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
     public String getMDateString() {
@@ -56,5 +57,13 @@ public class Crime {
 
     public void setmTitle(String mTitle) {
         this.mTitle = mTitle;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

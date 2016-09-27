@@ -18,10 +18,13 @@ import com.gegesha.criminalintent.model.Crime;
 import com.gegesha.criminalintent.util.CrimeLab;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private static final int REQUEST_CRIME = 1;
+    private UUID mItemChangedId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,19 +42,26 @@ public class CrimeListFragment extends Fragment {
         updateUI();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CRIME) {
+            mItemChangedId = CrimeActivity.getCrimeId(data);
+        }
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
-        if(mAdapter == null){
+        if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(mAdapter.getCrimeIndex(mItemChangedId));
         }
 
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckBox;
@@ -65,7 +75,7 @@ public class CrimeListFragment extends Fragment {
             mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
         }
 
-        public void bindCrime(Crime crime) {
+        public void bindCrime(Crime crime, int position) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getmTitle());
             mDateTextView.setText(mCrime.getmDate().toString());
@@ -74,9 +84,8 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-
-            Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getmId());
-            startActivity(intent);
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getmId());
+            startActivityForResult(intent, REQUEST_CRIME);
 
         }
     }
@@ -99,7 +108,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Crime crime = mCrimes.get(position);
-            holder.bindCrime(crime);
+            holder.bindCrime(crime, position);
         }
 
         @Override
@@ -107,6 +116,15 @@ public class CrimeListFragment extends Fragment {
             return mCrimes.size();
         }
 
+        private int getCrimeIndex(UUID crimeId) {
+            for (int i = 0; i < mCrimes.size(); i++) {
+                Crime crime = mCrimes.get(i);
+                if (crime.getmId().equals(crimeId)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
     }
 }

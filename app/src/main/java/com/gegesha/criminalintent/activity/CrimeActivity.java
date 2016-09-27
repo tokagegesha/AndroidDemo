@@ -23,5 +23,8 @@ public class CrimeActivity extends SingleFragmentActivity {
         intent.putExtra(EXTRA_CRIME_ID,crimeId);
         return intent;
     }
+    public static UUID getCrimeId(Intent result) {
+        return CrimeFragment.getCrimeId(result);
+    }
 
 }

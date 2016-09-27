@@ -1,5 +1,6 @@
 package com.gegesha.criminalintent.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.gegesha.criminalintent.R;
-import com.gegesha.criminalintent.activity.CrimeActivity;
 import com.gegesha.criminalintent.model.Crime;
 import com.gegesha.criminalintent.util.CrimeLab;
 
@@ -42,6 +42,10 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         crime = CrimeLab.get(getActivity()).getCrime(crimeId);
+    }
+
+    public static UUID getCrimeId(Intent result) {
+        return (UUID) result.getSerializableExtra(ARG_CRIME_ID);
     }
 
     @Override
