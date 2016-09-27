@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.gegesha.criminalintent.R;
-import com.gegesha.criminalintent.activity.CrimeActivity;
+import com.gegesha.criminalintent.activity.CrimePagerActivity;
 import com.gegesha.criminalintent.model.Crime;
 import com.gegesha.criminalintent.util.CrimeLab;
 
@@ -45,7 +43,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CRIME) {
-            mItemChangedId = CrimeActivity.getCrimeId(data);
+            mItemChangedId = CrimePagerActivity.getCrimeId(data);
         }
     }
 
@@ -84,7 +82,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getmId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getmId());
             startActivityForResult(intent, REQUEST_CRIME);
 
         }
